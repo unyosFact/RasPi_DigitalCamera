@@ -1,5 +1,10 @@
 ---------------------------------------------------------
 setup_digicame.txt for DigitalCamera App
+
+	Raspberry Pi3 ( or Zero ) 
+		+ Official Camera ( V2 )
+		+ LCD ( 320x240, in Touch Panel ) 
+		+ KSY Power Control Board
 											2017/04/18
 ---------------------------------------------------------
 
@@ -31,7 +36,6 @@ setup_digicame.txt for DigitalCamera App
 　・Raspberry Pix の電源をONする
 
 
-
 ================================================================
 5.LANケーブルを接続して、インターネット接続可能にする
 
@@ -46,11 +50,18 @@ setup_digicame.txt for DigitalCamera App
 
 
 ================================================================
-6.github より
+6.github より ダウンロードし、フォルダへコピーする
 
-  ・Raspi_Home/work           -->  ~/work
+　・ターミナルを起動して、下記を入力する
 
-  ・Raspi_Home/digicame.sh    -->  ~/digicame.sh
+	＜ファイル群をダウンロード＞
+
+		git clone https://github.com/unyosFact/RasPi_DigitalCamera.git
+
+	＜/home/pi/ にコピーする＞
+		cd RasPi_DigitalCamera
+		cp digicame.sh ..
+		cp -r work ..
 
 
 
@@ -72,10 +83,12 @@ setup_digicame.txt for DigitalCamera App
 
 　・ターミナルを起動し、ファイルを２つ作成
 
-　　(1) sudo nano /etc/udev/rules.d/95-ft6236.rules としてエディタを起動
+	(1)※ FT6236タッチパネル使用時
+　　　　sudo nano /etc/udev/rules.d/95-ft6236.rules としてエディタを起動
 
 		1行下記を入力して保存する（ Ctrl+O )
 		SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{name}=="ft6236*", SYMLINK+="input/touchscreen"
+
 
 　　(2) sudo nano /etc/udev/rules.d/95-stmpe.rules としてエディタを起動
 
@@ -83,7 +96,7 @@ setup_digicame.txt for DigitalCamera App
 		SUBSYSTEM=="input", ATTRS{name}=="stmpe-ts", ENV{DEVNAME}=="*event*", SYMLINK+="input/touchscreen"
 
 
-　・ターミナルより、下記入力
+　・ターミナルを起動し、下記を入力
 
 	sudo chmod +x *.sh
 
@@ -114,6 +127,7 @@ setup_digicame.txt for DigitalCamera App
 		@/home/pi/digicame.sh
 
 	この後、再起動して　自動起動する事を確認
+
 
 
 ================================================================
