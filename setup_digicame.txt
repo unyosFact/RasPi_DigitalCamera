@@ -1,0 +1,119 @@
+---------------------------------------------------------
+setup_digicame.txt for DigitalCamera App
+											2017/04/18
+---------------------------------------------------------
+
+※　NOOBS 2.4.0 使用環境での実行手順
+
+<< for Raspberry Pix >>
+
+================================================================
+1.Raspbian OS をセットアップしておく
+
+
+2.Raspberry Pix の電源をONする
+
+
+3.カメラを使用可能にする
+
+  ・RasPi Configを起動
+
+	  	<Interface>
+	  		Camera:			Enable	にする
+
+
+4.カメラを接続する
+
+　・Raspberry Pix の電源をOFFする
+
+　・カメラを接続
+
+　・Raspberry Pix の電源をONする
+
+
+
+================================================================
+5.LANケーブルを接続して、インターネット接続可能にする
+
+  WiFi接続は、時刻合わせが出来ないので注意（2017/04/18現在）
+
+　－－－－－－－－－－－－－－－－－－－
+  ※ SSH使用時のみ Terminalより
+  	sudo chmod 666 /etc/dhcpdc.conf
+  	IP アドレス固定値設定
+　－－－－－－－－－－－－－－－－－－－
+
+
+
+================================================================
+6.github より
+
+  ・Raspi_Home/work           -->  ~/work
+
+  ・Raspi_Home/digicame.sh    -->  ~/digicame.sh
+
+
+
+================================================================
+7.使用する液晶パネル＆タッチパネルのドライバを登録
+
+　・接続前に設定が必要な設定を実行する
+
+　・Raspberry Pix の電源をOFFする
+
+　・液晶パネルを接続する
+
+　・Raspberry Pix の電源をONする
+
+
+
+================================================================
+8.タッチパネルドライバの登録＆設定　（ここは SSHの使用が便利 ）
+
+　・ターミナルを起動し、ファイルを２つ作成
+
+　　(1) sudo nano /etc/udev/rules.d/95-ft6236.rules としてエディタを起動
+
+		1行下記を入力して保存する（ Ctrl+O )
+		SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{name}=="ft6236*", SYMLINK+="input/touchscreen"
+
+　　(2) sudo nano /etc/udev/rules.d/95-stmpe.rules としてエディタを起動
+
+		1行下記を入力して保存する（ Ctrl+O )
+		SUBSYSTEM=="input", ATTRS{name}=="stmpe-ts", ENV{DEVNAME}=="*event*", SYMLINK+="input/touchscreen"
+
+
+　・ターミナルより、下記入力
+
+	sudo chmod +x *.sh
+
+	cd ~/work/camera_1
+	sudo chmod +x *.py
+	sudo chmod +x *.sh
+	./ts_setup1.sh
+
+
+　・RasPi3を再起動する
+	sudo reboot
+
+
+
+================================================================
+9.デジカメアプリ起動確認
+
+	cd ~
+	./digicame.sh
+
+	画像を２、３枚記録し、再生表示可能な事を確認
+
+
+　＜自動起動させる場合＞
+
+	sudo nano ~/.config/lxsession/LXDE-pi/autostart と入力して、下記１行を追記
+
+		@/home/pi/digicame.sh
+
+	この後、再起動して　自動起動する事を確認
+
+
+================================================================
